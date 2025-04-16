@@ -1,4 +1,27 @@
-console.log(playGame())
+//console.log(playGame())
+
+let humanChoice = "";
+let i = 0; //counts how many games played
+let computerScore = 0
+let humanScore = 0
+
+function rock_clicked()
+{
+    humanChoice = "rock";
+    playGame();
+}
+
+function paper_clicked()
+{
+    humanChoice = "paper";
+    playGame();
+}
+
+function scissors_clicked()
+{
+    humanChoice = "scissors";
+    playGame();
+}
 
 function getComputerChoice() {
     let rnd = Math.random() * 3
@@ -11,23 +34,24 @@ function getComputerChoice() {
 }
 
 function getHumanChoice() {
-    let userInput = "";
-    while (userInput.toLowerCase() != "rock" && userInput.toLowerCase() != "paper"
-        && userInput.toLowerCase() != "scissors") {
-        userInput = prompt("Your choice (enter rock, paper or scissors):")
-    }
-    return userInput.toLowerCase();
+    return humanChoice;
 }
 
 
 
 function playGame() {
-    let computerScore = 0
-    let humanScore = 0
+    
+    const introDiv = document.getElementById("intro");
+    
+    if (i == 0)
+        {
+            const winnerDiv = document.getElementById("winner");
+            winnerDiv.textContent = "";
+        }
 
-    for (i = 0; i < 5; i++)
-    {
-        console.log(`Round ${i+ 1}/5 CurrentScore Human:${humanScore} Computer:${computerScore}`)
+    //for (i = 0; i < 5; i++)
+    //{
+        introDiv.textContent = `Round ${i+ 1}/5 CurrentScore Human:${humanScore} Computer:${computerScore}`;
         let humanChoice = getHumanChoice()
         let computerChoice = getComputerChoice()
         let result = playRound(humanChoice, computerChoice)
@@ -35,42 +59,52 @@ function playGame() {
             humanScore++
         else if (result == 2)
             computerScore++
+        i++;
+    //}
+    if (i == 5)
+    {
+        const winnerDiv = document.getElementById("winner");
+        winnerDiv.textContent = `Final result: Human:${humanScore} Computer:${computerScore}`;
+        i = 0;
+        humanScore = 0;
+        computerScore = 0;
     }
-    console.log(`Final result: Human:${humanScore} Computer:${computerScore}`)
+    //console.log(`Final result: Human:${humanScore} Computer:${computerScore}`)
 
     // returns 1 when human wins, 2 when computer wins, 0 when tie
     function playRound(humanChoice, computerChoice) {
+        const lastResultDiv = document.getElementById("lastResult");
         if (humanChoice == computerChoice) {
-            console.log(`Tie! You both chose ${humanChoice.toUpperCase()}`)
+            lastResultDiv.textContent = `Tie! You both chose ${humanChoice.toUpperCase()}`;
             return 0;
         }
         if (humanChoice == "rock") {
             if (computerChoice == "paper") {
-                console.log("You lose! Paper beats Rock.")
+                lastResultDiv.textContent = "You lose! Paper beats Rock.";
                 return 2;
             }
             else if (computerChoice == "scissors") {
-                console.log("You win! Rock beats Scissors.")
+                lastResultDiv.textContent = "You win! Rock beats Scissors.";
                 return 1;
             }
         }
         else if (humanChoice == "paper") {
             if (computerChoice == "scissors") {
-                console.log("You lose! Scissors beats Paper.")
+                lastResultDiv.textContent = "You lose! Scissors beats Paper.";
                 return 2;
             }
             else if (computerChoice == "rock") {
-                console.log("You win! Paper beats Rock.")
+                lastResultDiv.textContent = "You win! Paper beats Rock.";
                 return 1;
             }
         }
-        else if (humanChoice == "scisssors") {
+        else if (humanChoice == "scissors") {
             if (computerChoice == "rock") {
-                console.log("You lose! Rock beats Scissors.")
+                lastResultDiv.textContent = "You lose! Rock beats Scissors.";
                 return 2;
             }
             else if (computerChoice == "paper") {
-                console.log("You win! Scissors beats Paper.")
+                lastResultDiv.textContent = "You win! Scissors beats Paper.";
                 return 1;
             }
         }
